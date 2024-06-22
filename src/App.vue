@@ -1,11 +1,20 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+
 const monedas = ref([
   { codigo: 'USD', texto: 'Dolar de Estados Unidos' },
   { codigo: 'MXN', texto: 'Peso Mexicano' },
   { codigo: 'EUR', texto: 'Euro' },
   { codigo: 'GBP', texto: 'Libra Esterlina' },
 ])
+
+const criptoMonedas = ref([])
+
+onMounted(() => {
+  fetch('https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD')
+    .then(respuesta => respuesta.json())
+    .then(({ Data }) => criptoMonedas.value = Data)
+})
 </script>
 
 <template>
