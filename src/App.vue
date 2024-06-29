@@ -37,10 +37,10 @@ const cotizarCripto = () => {
 
 const obtenerCotizacion = async () => {
   const { moneda, criptomoneda } = cotizar;
-  const url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${criptomoneda},ETH&tsyms=${moneda}`;
+  const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda},ETH&tsyms=${moneda}`;
   const respuesta = await fetch(url);
   const data = await respuesta.json();
-  cotizacion.value = data[criptomoneda][moneda];
+  cotizacion.value = data.DISPLAY[criptomoneda][moneda];
 }
 </script>
 
@@ -70,6 +70,21 @@ const obtenerCotizacion = async () => {
         </div>
         <input type="submit" value="Cotizar" />
       </form>
+
+      <div class="contenedor-resultado">
+        <h2>Cotización</h2>
+        <div class="resultado">
+          <img :src="'https://cryptocompare.com/' + cotizacion.IMAGEURL" alt="imagen cripto">
+          <div>
+            <p>El precio es de: <span>{{ cotizacion.PRICE }}</span></p>
+            <p>Precio más alto del día: <span>{{ cotizacion.HIGHDAY }}</span></p>
+            <p>Precio bajo del día: <span>{{ cotizacion.LOWDAY }}</span></p>
+            <p>Variación últimas 24 horas: <span>{{ cotizacion.CHANGEPCT24HOUR }}%</span></p>
+            <p>Última actualización: <span>{{ cotizacion.LASTUPDATE }}</span></p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
